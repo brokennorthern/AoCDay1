@@ -16,25 +16,24 @@ namespace TreeBucket
         {
             var Input = File.ReadAllText(@"C:\Users\Mark\source\repos\AoCDay1\AoCDay1\input.txt");
             string[] Strings = Input.ToUpper().Split('\n');
+            string[] Strings2 = Input.ToUpper().Split('\n');
 
-            //Console.WriteLine("The Output for Part 1 is: " + Part1(Strings));
-            Console.WriteLine("The Output for Part 2 is: " + Part2(Strings));
+            Console.WriteLine("The Output for Part 1 is: " + Part1(Strings));
+            Console.WriteLine("The Output for Part 2 is: " + Part2(Strings2));
+
 
             static int Part1(string[] Input)
             {
                 int Sum = 0;
+                string output = "";
                 for (int i = 0; i < Input.Length; i++)
                 {
-                    Console.WriteLine(Input[i]);
                     Input[i] = Regex.Replace(Input[i], @"[A-Za-z]+", "");
-                    Console.WriteLine(Input[i]);
                     Input[i] = Input[i].Trim();
-                    string output = "";
+                    output = "";
                     output += Input[i][0];
                     output += Input[i][^1];
-                    Console.WriteLine(output);
                     Sum += Int32.Parse(output);
-                    Console.WriteLine(Sum);
                 }
                 return Sum;
             }
@@ -55,12 +54,11 @@ namespace TreeBucket
                 };
                 for (int i = 0; i < Input.Length; i++)
                 {
-                    Console.WriteLine(Input[i]);
                     var regex = new Regex(String.Join("|", Map.Keys));
-                    var temp = regex.Replace(Input[i], m => Map[m.Value]);
-                    Input[i] = temp;
-                    Console.WriteLine(temp);
-                    Console.WriteLine(Input[i]);
+                    Input[i] = regex.Replace(Input[i], m => Map[m.Value]);
+                    Input[i] = regex.Replace(Input[i], m => Map[m.Value]);
+                    //Dirty way of handling data such as "eighthree".
+                    //I don't like it, but it works.
                 }
                 return Part1(Input);
             }
