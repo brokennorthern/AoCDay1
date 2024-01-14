@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -11,22 +12,58 @@ namespace TreeBucket
 {
     class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
-            var input = File.ReadAllText(@"C:\Users\Mark\source\repos\AoCDay1\AoCDay1\input.txt");
-            string[] strings = Regex.Replace(input, @"[A-Za-z]+", "").Split('\n');
-            int sum = 0;
+            var Input = File.ReadAllText(@"C:\Users\Mark\source\repos\AoCDay1\AoCDay1\input.txt");
+            string[] Strings = Input.ToUpper().Split('\n');
 
-            for (int i = 0; i < strings.Length; i++)
+            //Console.WriteLine("The Output for Part 1 is: " + Part1(Strings));
+            Console.WriteLine("The Output for Part 2 is: " + Part2(Strings));
+
+            static int Part1(string[] Input)
             {
-                strings[i] = strings[i].Trim();
-                string output = "";
-                output += strings[i][0];
-                output += strings[i][^1];
-                sum += Int32.Parse(output);
+                int Sum = 0;
+                for (int i = 0; i < Input.Length; i++)
+                {
+                    Console.WriteLine(Input[i]);
+                    Input[i] = Regex.Replace(Input[i], @"[A-Za-z]+", "");
+                    Console.WriteLine(Input[i]);
+                    Input[i] = Input[i].Trim();
+                    string output = "";
+                    output += Input[i][0];
+                    output += Input[i][^1];
+                    Console.WriteLine(output);
+                    Sum += Int32.Parse(output);
+                    Console.WriteLine(Sum);
+                }
+                return Sum;
             }
 
-            Console.WriteLine(sum);
+            static int Part2(string[] Input)
+            {
+                IDictionary<string, string> Map = new Dictionary<string, string>()
+                {
+                    {"ONE","O1E"},
+                    {"TWO","T2O"},
+                    {"THREE","TH3EE"},
+                    {"FOUR","FO4R"},
+                    {"FIVE","FI5E"},
+                    {"SIX","S6X"},
+                    {"SEVEN","SE7EN"},
+                    {"EIGHT","EI8HT"},
+                    {"NINE","NI9E"},
+                };
+                for (int i = 0; i < Input.Length; i++)
+                {
+                    Console.WriteLine(Input[i]);
+                    var regex = new Regex(String.Join("|", Map.Keys));
+                    var temp = regex.Replace(Input[i], m => Map[m.Value]);
+                    Input[i] = temp;
+                    Console.WriteLine(temp);
+                    Console.WriteLine(Input[i]);
+                }
+                return Part1(Input);
+            }
         }
     }
 }
